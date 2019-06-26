@@ -1,0 +1,8 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: localhost:8848
+        file-extension: yml # 配置文件的格式，默认为properties
+#        shared-dataids: mysql.yml #  需要使用的配置文件
+#        refreshable-dataids: mysql.yml # 需要实时刷新的配置文件

@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: monitor
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 # Nacos服务接口(不能加http前缀)，直接访问localhost:8848/nacos可以进入管理页面
+
+server:
+  port: 7000
+
+
+#  Actuator 开放所有节点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  security:
+    enabled: false
+  endpoint:
+    health:
+      show-details: always
+endpoints:
+  health:
+    sensitive: false
+
+
+

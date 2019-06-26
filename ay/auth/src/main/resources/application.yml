@@ -1,0 +1,99 @@
+server:
+  port: 8763
+
+spring:
+  application:
+    name: auth
+  rabbitmq:
+    host: ${RABBIT_MQ_HOST:localhost}
+    port:  ${RABBIT_MQ_PORT:5672}
+#    username: guest
+#    password: guest
+    username: guest
+    password: guest
+  sleuth:
+    enabled: true
+    http:
+      legacy:
+        enabled: true
+#  consul:
+#    enabled: true
+#    host: 127.0.0.1
+#    port: 8500
+#    discovery:
+#      healthCheckPath: /actuator/health
+#      healthCheckInterval: 5s
+#      instanceId: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+#      register: true
+#      enabled: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848 # Nacos服务接口(不能加http前缀)，直接访问localhost:8848/nacos可以进入管理页面
+#      config:
+#        file-extension: yml    #配置文件的格式，默认为properties
+##        shared-dataids: ${spring.application.name}.yml # 需要使用的配置文件
+##        refreshable-dataids: ${spring.application.name}.yml # 需要实时刷新的配置文件
+#        server-addr: localhost:8848
+
+#请求和响应GZIP压缩支持
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  compression:
+    request:
+      enabled: true
+      mime-types: text/xml,application/xml,application/json
+      min-request-size: 2048
+    response:
+      enabled: true
+
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 60000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: false
+
+hystrix:
+  threadpool:
+    default:
+      coreSize: 1000 ##并发执行的最大线程数，默认10
+      maxQueueSize: 1000 ##BlockingQueue的最大队列数
+      queueSizeRejectionThreshold: 500 ##即使maxQueueSize没有达到，达到queueSizeRejectionThreshold该值后，请求也会被拒绝
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 1000000
+
+
+logging:
+  level:
+    coml.loop.demo.auth: info
+#  Actuator 开放所有节点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  security:
+    enabled: false
+  endpoint:
+    health:
+      show-details: always
+endpoints:
+  health:
+    sensitive: false
+
+
+
+jwt:
+  token-header: Authorization
+  expire: 14400  #四个小时
+  rsa-secret: hyh
+
+
